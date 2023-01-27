@@ -1,7 +1,5 @@
 package helloJpa;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,14 +16,14 @@ public class JpaMain {
 		tx.begin();
 
 		try {
-//			Member findMember = em.find(Member.class, 1L);
-			List<Member> result = em.createQuery("SELECT m FROM Member as m", Member.class).setFirstResult(0)
-					.setMaxResults(1).getResultList();
-
-			for (Member member : result) {
-				System.out.println(member.getName());
-			}
-
+			
+			
+			//영속
+			Member member = em.find(Member.class, 150L);
+			member.setName("ZZZZZZ");
+			
+			System.out.println("===========");
+			
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();// TODO: handle exception
