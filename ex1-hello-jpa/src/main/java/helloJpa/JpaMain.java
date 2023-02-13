@@ -17,18 +17,22 @@ public class JpaMain {
 
 		try {
 			
+			Member member = new Member();
+			member.setUsername("C");
+			Member member1 = new Member();
+			member.setUsername("C");
+			Member member2 = new Member();
+			member.setUsername("C");
 			
-			//영속
-			Member member = em.find(Member.class, 150L);
-			member.setName("AAAAA");
-			
-			em.clear();
-			
-			Member member2 = new Member(150L, "500");
+			System.out.println("======");
+			em.persist(member);
+			em.persist(member1);
 			em.persist(member2);
 			
-			System.out.println("===========");
-			
+			System.out.println(member.getId());
+			System.out.println(member1.getId());
+			System.out.println(member2.getId());
+			System.out.println("======");
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();// TODO: handle exception
