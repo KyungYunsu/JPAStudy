@@ -2,47 +2,45 @@ package helloJpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-@SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq",initialValue = 1, allocationSize = 50)
 public class Member {
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq")
+	@GeneratedValue
+	@Column(name = "MEMBER_ID")
 	private Long id;
-
-	@Column(name = "name")
-	private String username;
-
-
-	public Member() {
-
-	}
-
-
+	@Column(name = "USERNAME")
+	private String userName;
+//	@Column(name = "TEAM_ID")
+//	private Long teamId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TEAM_ID")
+	private Team team;
+	
 	public Long getId() {
 		return id;
 	}
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String name) {
+		this.userName = name;
+	}
+	public Team getTeam() {
+		return team;
+	}
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 	
 	
-
 }
