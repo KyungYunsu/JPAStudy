@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -20,6 +21,7 @@ public class Team {
 	private String name;
 
 	@OneToMany
+//	@JoinTable(name = "TEAM_ID")
 	@JoinColumn(name = "TEAM_ID")
 	private List<Member> members = new ArrayList<>();
 
@@ -47,5 +49,4 @@ public class Team {
 		this.members = members;
 	}
 
-	
 }
