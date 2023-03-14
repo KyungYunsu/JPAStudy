@@ -9,6 +9,7 @@ public class Movie  extends Item{
 
 	private String diretor;
 	private String actor;
+	
 	public String getDiretor() {
 		return diretor;
 	}
@@ -21,6 +22,7 @@ public class Movie  extends Item{
 	public void setActor(String actor) {
 		this.actor = actor;
 	}
+
 	
 	
 }
