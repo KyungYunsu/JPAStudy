@@ -1,12 +1,20 @@
 package helloJpa;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class Member {
@@ -24,6 +32,16 @@ public class Member {
 	// 주소
 	@Embedded
 	private Address homeAddress;
+
+	@ElementCollection
+	@CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+	@Column(name = "FOOD_NAME")
+	private Set<String> favoriteFoods = new HashSet<>();
+
+	@ElementCollection
+	@CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+	private List<Address> addressHistory = new ArrayList<>();
+
 	@Embedded
 	@AttributeOverrides({ @AttributeOverride(name = "city", column = @Column(name = "WORK_CITY")),
 			@AttributeOverride(name = "street", column = @Column(name = "WORK_STREET")),
@@ -61,5 +79,31 @@ public class Member {
 	public void setHomeAddress(Address homeAddress) {
 		this.homeAddress = homeAddress;
 	}
+
+	public Set<String> getFavoriteFoods() {
+		return favoriteFoods;
+	}
+
+	public void setFavoriteFoods(Set<String> favoriteFoods) {
+		this.favoriteFoods = favoriteFoods;
+	}
+
+	public List<Address> getAddressHistory() {
+		return addressHistory;
+	}
+
+	public void setAddressHistory(List<Address> addressHistory) {
+		this.addressHistory = addressHistory;
+	}
+
+	public Address getWorkAddress() {
+		return workAddress;
+	}
+
+	public void setWorkAddress(Address workAddress) {
+		this.workAddress = workAddress;
+	}
+	
+	
 
 }
