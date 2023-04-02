@@ -1,7 +1,6 @@
 package helloJpa;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,33 +18,15 @@ public class JpaMain {
 		tx.begin();
 
 		try {
-			Member member = new Member();
-			member.setUserName("member1");
-			member.setHomeAddress(new Address("city", "street", "10000"));
+			String jpql = "select m From Member m where m.username like '%kim%'";
+			List<Member> result = em.createQuery("select m From Member m where m.username like '%kim%'",
+					Member.class)
+					.getResultList();
 
-			member.getFavoriteFoods().add("치킨");
-			member.getFavoriteFoods().add("족발");
-			member.getFavoriteFoods().add("피자");
+			for (Member member : result) {
+				System.out.println("member = " + member);
+			}
 
-			member.getAddressHistory().add(new Address("old1", "street", "10000"));
-			member.getAddressHistory().add(new Address("old2", "street", "10000"));
-
-			em.persist(member);
-
-			em.flush();
-			em.clear();
-
-			System.out.println("start---------------");
-			Member findMember = em.find(Member.class, member.getId());
-			Address a = findMember.getHomeAddress();
-			findMember.setHomeAddress(new Address("newCity", a.getStreet(),a.getZipcode()));
-			
-			findMember.getFavoriteFoods().remove("치킨");
-			findMember.getFavoriteFoods().add("한식");
-			
-			findMember.getAddressHistory().remove(new Address("old1", "street", "10000"));
-			findMember.getAddressHistory().add(new Address("old3", "street", "10000"));
-			
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();// TODO: handle exception
