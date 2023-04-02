@@ -21,19 +21,20 @@ public class JpaMain {
 		tx.begin();
 
 		try {
-			
-			Member member=  new Member();
+
+			Member member = new Member();
 			member.setUsername("member1");
 			member.setAge(10);
 			em.persist(member);
+
+			em.flush();
+			em.clear();
 			
-			TypedQuery<Member> query = em.createQuery("select m from Member m where m.username = :username", Member.class);
-			query.setParameter("username", "member1");
-			TypedQuery<String>  query2 = em.createQuery("select m.username from Member m", String.class);
-			javax.persistence.Query query3 = em.createQuery("select m.username, m.age from Member m");
+			List<MemberDTO> resultList = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class).getResultList();
 			
-			Member result = query.getSingleResult();
-			System.out.println(result.getAge());
+			MemberDTO memberDTO = resultList.get(0);
+			
+			System.out.println(memberDTO.getUsername());
 			
 			tx.commit();
 		} catch (Exception e) {
