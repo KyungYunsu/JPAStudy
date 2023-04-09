@@ -1,11 +1,14 @@
 package jpql;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.OrderColumn;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 public class JpaMain {
 
@@ -32,8 +35,20 @@ public class JpaMain {
 			
 			
 			Member member1 = new Member();
+<<<<<<< HEAD
 			member1.setUsername("회원2");
 			member1.setTeam(teamA);
+=======
+			member1.setUsername("관리자");
+			member1.setAge(10);
+			
+			
+			member.setTeam(team);
+			
+			
+			em.persist(team);
+			em.persist(member);
+>>>>>>> branch 'master' of https://github.com/KyungYunsu/JPAStudy.git
 			em.persist(member1);
 
 			Member member2 = new Member();
@@ -44,15 +59,27 @@ public class JpaMain {
 
 			em.flush();
 			em.clear();
+<<<<<<< HEAD
 
 			String query = "select m From Member m join fetch m.team";
 			List<Member> result = em.createQuery(query, Member.class)
 					.getResultList();
+=======
+>>>>>>> branch 'master' of https://github.com/KyungYunsu/JPAStudy.git
 			
+<<<<<<< HEAD
 			for (Member Member: result) {
 				System.out.println("Member : "+ Member.getUsername() + Member.getTeam().getName());
+=======
+			String query  = "select t.members from Team t";
+					
+			Collection result = em.createQuery(query, Collection.class).getResultList();
+			
+			for (Object s: result) {
+				System.out.println(s);
+>>>>>>> branch 'master' of https://github.com/KyungYunsu/JPAStudy.git
 			}
-
+			
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();// TODO: handle exception
