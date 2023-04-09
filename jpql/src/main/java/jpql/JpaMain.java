@@ -18,40 +18,39 @@ public class JpaMain {
 		tx.begin();
 
 		try {
-			Team team = new Team();
-			team.setName("teamA");
-			em.persist(team);
+			Team teamA = new Team();
+			teamA.setName("teamA");
+			em.persist(teamA);
+			Team teamB = new Team();
+			teamB.setName("teamB");
+			em.persist(teamB);
 			
 			Member member = new Member();
-			member.setUsername("member1");
+			member.setUsername("회원1");
+			member.setTeam(teamA);
+			em.persist(member);
 			
-			member.setAge(10);
-			member.setType(MemberType.ADMIN);
 			
 			Member member1 = new Member();
-			member1.setUsername("member2");
-			member1.setAge(10);
-			
-			
-			member.setTeam(team);
-			
-			
-			em.persist(team);
-			em.persist(member);
+			member1.setUsername("회원2");
+			member1.setTeam(teamA);
 			em.persist(member1);
+
+			Member member2 = new Member();
+			member2.setUsername("회원3");
+			member2.setTeam(teamB);
+			em.persist(member2);
+			
 
 			em.flush();
 			em.clear();
 
-			String query = "select m.username, 'Hello', TRUE from Member m where m.type =:userType";
-			List<Object[]> result = em.createQuery(query).setParameter("userType", MemberType.ADMIN).getResultList();
+			String query = "select m From Member m join fetch m.team";
+			List<Member> result = em.createQuery(query, Member.class)
+					.getResultList();
 			
-//			System.out.println(result.size());
-//			System.out.println(result.get(0).);
-			for (Object[] objects: result) {
-				System.out.println(objects[0]);
-				System.out.println(objects[1]);
-				System.out.println(objects[2]);
+			for (Member Member: result) {
+				System.out.println("Member : "+ Member.getUsername() + Member.getTeam().getName());
 			}
 
 			tx.commit();
